@@ -1,0 +1,67 @@
+﻿@model IEnumerable<BlueOcktopus.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <input type="text" id="customSearchBox" class="form-control w-25" placeholder="Search..." />
+</div>
+
+<table id="studentsTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Department)</th>
+            <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>@Html.DisplayFor(modelItem => item.Department)</td>
+                <td>@Html.DisplayFor(modelItem => item.BirthDate)</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.StudentId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#studentsTable').DataTable({
+                "paging": true,
+                "pageLength": 2,
+                "lengthChange": false,
+                "searching": true,
+                "info": true,
+                "ordering": true,
+                "dom": 'lrtip'
+
+            });
+
+           
+            $('#customSearchBox').on('keyup', function () {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
+}
